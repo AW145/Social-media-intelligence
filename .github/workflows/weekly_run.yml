@@ -1,0 +1,23 @@
+name: Weekly Intelligence
+
+on:
+  schedule:
+    - cron: "0 15 * * 5"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - run: pip install feedparser
+
+      - run: python scripts/collect_sources.py
+      - run: python scripts/analyze_updates.py
+      - run: python scripts/generate_report.py
